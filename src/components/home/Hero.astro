@@ -1,5 +1,7 @@
 ---
 import CTALink from '../common/CTALink.astro';
+import { Image } from 'astro:assets';
+import heroImage from '../../assets/images/hero.jpg';
 ---
 
 <section class="hero">
@@ -10,11 +12,11 @@ import CTALink from '../common/CTALink.astro';
       <p class="hero__positioning">
         <em>Making AI legible and accessible to the world — one community, one conversation, one founder at a time.</em>
       </p>
-      <CTALink href="/work-with-me">Work with me</CTALink>
+      <!--<CTALink href="/work-with-me">Work with me</CTALink>-->
     </div>
     <div class="hero__photo">
-      <div class="hero__photo-placeholder">
-        <span>Photo</span>
+      <div class="hero__image-wrapper">
+        <Image src={heroImage} alt="Catherine McMillan" class="hero__img" />
       </div>
     </div>
   </div>
@@ -75,19 +77,20 @@ import CTALink from '../common/CTALink.astro';
   .hero__photo {
     animation: fadeIn 1s var(--ease-out) 0.5s both;
   }
-  .hero__photo-placeholder {
+  
+  .hero__image-wrapper {
     aspect-ratio: 3 / 4;
-    background: var(--bg-warm);
     border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-tertiary);
-    font-size: 0.85rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    position: relative;
     overflow: hidden;
+    position: relative;
+    background: var(--bg-warm);
+  }
+
+  .hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   @keyframes fadeUp {
@@ -116,8 +119,10 @@ import CTALink from '../common/CTALink.astro';
     .hero__photo {
       order: -1;
     }
-    .hero__photo-placeholder {
+    .hero__image-wrapper {
       aspect-ratio: 4 / 5;
+      max-width: 400px;
+      margin: 0 auto;
     }
   }
 </style>
