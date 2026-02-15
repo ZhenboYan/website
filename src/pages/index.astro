@@ -1,57 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/home/Hero.astro';
-import PathwayCard from '../components/home/PathwayCard.astro';
-import TrustBar from '../components/home/TrustBar.astro';
-import AboutPreview from '../components/home/AboutPreview.astro';
-import WritingPreview from '../components/home/WritingPreview.astro';
-import ClosingCTA from '../components/home/ClosingCTA.astro';
-import SectionLabel from '../components/common/SectionLabel.astro';
-
-const pathways = [
-  {
-    number: '01',
-    title: 'Strategic Advisory',
-    description: 'For early-stage founders building in and around AI. Long-term, equity-based partnerships focused on growth, community, and go-to-market.',
-    href: '/work-with-me#advisory',
-    linkText: 'Learn more',
-  },
-  {
-    number: '02',
-    title: 'Consulting',
-    description: 'For professionals navigating career transitions, building public presence, or developing strategic clarity. Paid engagements.',
-    href: '/work-with-me#consulting',
-    linkText: 'Learn more',
-  },
-  {
-    number: '03',
-    title: 'Events & Speaking',
-    description: 'Find me at AI community events, roundtables, and dinners across 100+ cities worldwide.',
-    href: '/events',
-    linkText: 'See events',
-  },
-];
 ---
 
 <BaseLayout title="Catherine McMillan — Advisor, Consultant, Community Builder">
   <Hero />
 
-  <!-- Pathways -->
-  <section class="pathways section">
-    <div class="container">
-      <SectionLabel text="How I Can Help" />
-      <div class="pathways__grid">
-        {pathways.map((pathway) => (
-          <PathwayCard {...pathway} />
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <TrustBar />
-  <AboutPreview />
-  <WritingPreview />
-  <ClosingCTA />
 </BaseLayout>
 
 <style>
