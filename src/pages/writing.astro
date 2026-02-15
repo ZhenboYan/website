@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLabel from '../components/common/SectionLabel.astro';
+import WritingEntry from '../components/shared/WritingEntry.astro';
+
+const posts = [
+  {
+    date: 'February 2026',
+    title: 'Why AI Communities Need Operators, Not Just Evangelists',
+    description: 'On the invisible infrastructure that turns hype into lasting ecosystems.',
+    href: '#',
+    featured: true,
+  },
+  {
+    date: 'January 2026',
+    title: 'The Case for Slow Strategy in a Fast-Moving Market',
+    description: 'What I tell every founder who wants to move fast and break things.',
+    href: '#',
+  },
+  {
+    date: 'December 2025',
+    title: 'Building in Public: Year One at The AI Collective',
+    description: 'Lessons from scaling a community to 150,000 members across 100+ cities.',
+    href: '#',
+  },
+  {
+    date: 'November 2025',
+    title: 'What Fulbright Taught Me About Technology Adoption',
+    description: 'Cultural context is the missing variable in every adoption model.',
+    href: '#',
+  },
+  {
+    date: 'October 2025',
+    title: 'The Advisor You Actually Need',
+    description: 'How to find the right strategic partners for your AI startup.',
+    href: '#',
+  },
+];
+
+const featured = posts.find((p) => p.featured);
+const rest = posts.filter((p) => !p.featured);
+---
+
+<BaseLayout title="Writing — Catherine McMillan">
+  <!-- Page Header -->
+  <section class="page-header section">
+    <div class="container">
+      <SectionLabel text="Writing" />
+      <h1 class="page-header__title">
+        Selected essays, analysis, and things I'm thinking about.
+      </h1>
+      <p class="page-header__subtext">
+        I write regularly on Substack about AI, community, and the future of work.
+        <a href="#" class="substack-link" target="_blank" rel="noopener noreferrer">Follow on Substack</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Featured -->
+  {featured && (
+    <section class="featured">
+      <div class="container">
+        <div class="featured__card">
+          <span class="featured__label">Featured</span>
+          <h2 class="featured__title">{featured.title}</h2>
+          <p class="featured__excerpt">{featured.description}</p>
+          <div class="featured__meta">
+            <span class="featured__date">{featured.date}</span>
+            <a href={featured.href} class="featured__read" target="_blank" rel="noopener noreferrer">
+              Read on Substack <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Writing List -->
+  <section class="writing-list section">
+    <div class="container writing-list__inner">
+      {rest.map((post) => (
+        <WritingEntry
+          date={post.date}
+          title={post.title}
+          description={post.description}
+          href={post.href}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-xl);
+  }
+  .page-header :global(.section-label) {
+    margin-bottom: var(--space-md);
+  }
+  .page-header__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 300;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--espresso);
+    max-width: 700px;
+  }
+  .page-header__subtext {
+    margin-top: var(--space-md);
+    color: var(--text-secondary);
+  }
+  .substack-link {
+    color: var(--accent);
+    transition: color var(--ease);
+  }
+  .substack-link:hover {
+    color: var(--accent-hover);
+  }
+
+  .featured__card {
+    background: var(--bg-warm);
+    padding: 3rem;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .featured__label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .featured__title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--espresso);
+  }
+  .featured__excerpt {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+  .featured__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-sm);
+  }
+  .featured__date {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+  }
+  .featured__read {
+    font-size: 0.825rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    transition: color var(--ease);
+  }
+  .featured__read:hover {
+    color: var(--accent-hover);
+  }
+
+  .writing-list__inner {
+    max-width: 900px;
+  }
+</style>

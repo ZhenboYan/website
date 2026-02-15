@@ -1,0 +1,43 @@
+:root {
+  /* ── Color System ── */
+  --bg: #FAF7F2;
+  --bg-warm: #F5F0E8;
+  --text-primary: #2A2A2A;
+  --text-secondary: #8A7E72;
+  --text-tertiary: #B5AA9E;
+  --accent: #BF7B5E;
+  --accent-hover: #A8694F;
+  --accent-light: rgba(191, 123, 94, 0.08);
+  --espresso: #3D2E1F;
+  --stone: #A09484;
+  --rule: rgba(42, 42, 42, 0.08);
+
+  /* ── Spacing Scale ── */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+  --space-3xl: 8rem;
+
+  /* ── Typography ── */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* ── Layout ── */
+  --max-width: 1400px;
+  --page-padding: 3rem;
+
+  /* ── Transitions ── */
+  --ease: 0.3s ease;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --page-padding: 1.5rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+  }
+}

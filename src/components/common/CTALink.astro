@@ -1,0 +1,37 @@
+---
+interface Props {
+  href: string;
+  class?: string;
+}
+
+const { href, class: className } = Astro.props;
+---
+
+<a href={href} class:list={['cta-link', className]}>
+  <span class="cta-link__text"><slot /></span>
+  <span class="cta-link__arrow" aria-hidden="true">&rarr;</span>
+</a>
+
+<style>
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.825rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    transition: color var(--ease);
+  }
+  .cta-link:hover {
+    color: var(--accent-hover);
+  }
+  .cta-link__arrow {
+    transition: transform var(--ease);
+  }
+  .cta-link:hover .cta-link__arrow {
+    transform: translateX(4px);
+  }
+</style>

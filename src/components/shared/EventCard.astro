@@ -1,0 +1,90 @@
+---
+interface Props {
+  date: string;
+  name: string;
+  location: string;
+  description: string;
+  rsvpUrl?: string;
+  past?: boolean;
+}
+
+const { date, name, location, description, rsvpUrl, past = false } = Astro.props;
+---
+
+<div class:list={['event-card', { 'event-card--past': past }]}>
+  <span class="event-card__date">{date}</span>
+  <h3 class="event-card__name">{name}</h3>
+  <span class="event-card__location">{location}</span>
+  {!past && <p class="event-card__description">{description}</p>}
+  {rsvpUrl && !past && (
+    <a href={rsvpUrl} class="event-card__rsvp" target="_blank" rel="noopener noreferrer">
+      RSVP <span aria-hidden="true">&rarr;</span>
+    </a>
+  )}
+</div>
+
+<style>
+  .event-card {
+    padding: 2rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transition: background-color var(--ease);
+  }
+  .event-card:hover {
+    background-color: var(--accent-light);
+  }
+  .event-card__date {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .event-card__name {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--espresso);
+    transition: color var(--ease);
+  }
+  .event-card:hover .event-card__name {
+    color: var(--accent);
+  }
+  .event-card__location {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .event-card__description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-top: 0.25rem;
+  }
+  .event-card__rsvp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.825rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: var(--space-xs);
+    transition: color var(--ease);
+  }
+  .event-card__rsvp:hover {
+    color: var(--accent-hover);
+  }
+
+  /* Past events: dimmer */
+  .event-card--past {
+    padding: 1.5rem 2rem;
+  }
+  .event-card--past .event-card__date,
+  .event-card--past .event-card__name,
+  .event-card--past .event-card__location {
+    color: var(--text-tertiary);
+  }
+</style>

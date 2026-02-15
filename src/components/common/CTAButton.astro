@@ -1,0 +1,46 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'tertiary';
+  class?: string;
+}
+
+const { href, variant = 'primary', class: className } = Astro.props;
+---
+
+<a href={href} class:list={['cta-button', variant, className]}>
+  <slot />
+</a>
+
+<style>
+  .cta-button {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    border-radius: 2px;
+    transition: background-color var(--ease), color var(--ease), border-color var(--ease);
+    text-align: center;
+  }
+
+  .primary {
+    background-color: var(--accent);
+    color: var(--bg);
+  }
+  .primary:hover {
+    background-color: var(--accent-hover);
+  }
+
+  .tertiary {
+    background-color: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+  }
+  .tertiary:hover {
+    background-color: var(--accent);
+    color: var(--bg);
+  }
+</style>

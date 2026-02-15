@@ -174,8 +174,9 @@ The site should feel: **world-class, approachable, competent.**
 **Mobile (≤768px):**
 - Left: "Catherine McMillan" (same style, slightly smaller).
 - Right: hamburger icon (three thin lines, `--text-primary`).
-- Hamburger opens a full-screen overlay: background `--bg`, nav links centered vertically, Cormorant Garamond at 2rem, stacked. "Get in Touch" at bottom as a full-width button.
+- Hamburger opens a native `<dialog>` element (full-screen modal): background `--bg`, nav links centered vertically, Cormorant Garamond at 2rem, stacked. "Get in Touch" at bottom as a full-width button.
 - Close icon: simple × in top right.
+- **Why `<dialog>`:** Native focus trapping for accessibility, built-in `Escape` key support, prevents background scroll, screen readers announce it correctly. Eliminates ~30 lines of custom overlay JS.
 
 ### 5b. Footer
 
@@ -639,7 +640,7 @@ A one-line description or first sentence of the piece.                Read →
 ### Scroll Behavior
 - `scroll-behavior: smooth` on html element.
 - No scroll-triggered animations. No intersection observer reveals. No parallax. Content is present when you scroll to it.
-- Exception: if using Astro View Transitions, pages can crossfade on navigation.
+- **View Transitions enabled:** `<ViewTransitions />` added to `BaseLayout.astro`. Pages crossfade on navigation (0.3s). This provides SPA-like navigation without a JS framework.
 
 ### Hover States
 - **Text links:** Color transition to `--accent` or `--text-primary` depending on context. Underline animates in (width 0 → 100%, from left).
@@ -749,21 +750,17 @@ A one-line description or first sentence of the piece.                Read →
 ## 14. Integrations
 
 ### 14a. Fonts
-- **Google Fonts:** Cormorant Garamond + DM Sans. Load via `<link>` with `preconnect` to `fonts.googleapis.com` and `fonts.gstatic.com`. Load only the weights specified in the typography system (don't load all weights).
-- **Font display:** `display=swap` for fast initial render.
+- **Self-hosted via `@fontsource` packages.** Install `@fontsource/cormorant-garamond` and `@fontsource/dm-sans`. Import only needed weights in `global.css`.
+- **Why self-hosted:** Eliminates render-blocking external requests (2 DNS lookups + font downloads), removes GDPR concern (Google Fonts sends visitor IPs to Google), faster LCP for hero animation, fonts are bundled into the Astro build.
+- Load only the weights specified in the typography system (300, 400, 500, 600 for both families + italic variants).
 
 ### 14b. Form Submission
-**Option A (recommended): Native form + serverless function.**
-- Build the form in HTML/Astro.
-- On submit, POST to a serverless endpoint (Astro API route, Netlify function, or Vercel serverless function).
-- The endpoint sends Catherine an email with the form data using a service like Resend, SendGrid, or Postmark.
-- Advantage: full design control, no third-party branding, fast.
-
-**Option B: Tally or Typeform embed.**
-- Embed a Tally or Typeform form within the page.
-- Override all default styling with custom CSS to match the site.
-- Advantage: built-in response management, no backend needed.
-- Disadvantage: styling limitations, possible branding, slower load.
+**Decision: Native form + Astro API route + Resend.**
+- Build the form in HTML/Astro with full design control matching the spec's precise styling.
+- On submit, POST to `src/pages/api/contact.ts` (Astro server endpoint).
+- The endpoint sends Catherine an email with the form data using Resend (free tier: 100 emails/day).
+- Requires `output: 'hybrid'` in astro.config.mjs so only the API route runs server-side while all pages remain static.
+- Requires an SSR adapter (`@astrojs/vercel` or `@astrojs/netlify`) depending on hosting choice.
 
 ### 14c. Substack / Writing Content
 **Option A (recommended for launch): Manual curation.**
@@ -812,7 +809,7 @@ These items need to be resolved before or during development:
 | 2 | **About page prose** | Not written | Catherine to provide or co-write. Should be editorial, first-person, ~300-400 words. |
 | 3 | **Philosophy/vision statement** | Not written | 2-4 sentences for the About page. |
 | 4 | **Photos** | Available, not yet provided | Need: 1 hero headshot (3:4), 1 candid/event photo (4:5), optional additional photos for Work With Me page. Provide as high-res JPG/PNG, minimum 1600px wide. |
-| 5 | **Form submission backend** | TBD | Decide between native serverless function vs. Tally/Typeform. |
+| 5 | **Form submission backend** | Decided: Native form + Resend | Astro API route at `src/pages/api/contact.ts`. Requires Resend API key. |
 | 6 | **Writing content** | Not yet curated | Catherine to select 5-10 pieces for launch, with titles, dates, descriptions, and Substack URLs. |
 | 7 | **Events content** | Not yet curated | Catherine to provide 3-5 upcoming events for launch. |
 | 8 | **Favicon / OG image** | Not designed | Design during build. Simple, clean, brand-aligned. |
@@ -823,51 +820,76 @@ These items need to be resolved before or during development:
 
 ---
 
-## File Structure (Recommended Astro Project)
+### 14g. Image Handling
+- Use Astro's built-in `<Image />` component from `astro:assets` for all photos.
+- Provides automatic WebP/AVIF conversion, responsive `srcset`, and lazy loading.
+- Hero and about photos are the heaviest assets — optimized images cut page weight by 50-70%.
+- The grain overlay effect (Section 6a) is a CSS SVG filter overlay, not baked into the image file.
+- Photos stored in `src/assets/images/` (processed by Astro's image pipeline, not `public/`).
+
+---
+
+## File Structure (Astro 5 Project)
 
 ```
 catherine-mcmillan.com/
 ├── public/
-│   ├── fonts/          (if self-hosting fonts instead of Google Fonts)
 │   ├── images/
-│   │   ├── hero.jpg
-│   │   ├── about-candid.jpg
-│   │   ├── og-image.jpg
+│   │   ├── og-image.jpg         (OG image — not processed, needs exact URL)
 │   │   └── favicon.svg
 │   └── robots.txt
 ├── src/
+│   ├── assets/
+│   │   └── images/              (processed by Astro image pipeline)
+│   │       ├── hero.jpg
+│   │       ├── about-candid.jpg
+│   │       └── ...
 │   ├── components/
-│   │   ├── Nav.astro
+│   │   ├── common/
+│   │   │   ├── SectionLabel.astro
+│   │   │   ├── CTAButton.astro  (reusable: primary, secondary, tertiary variants)
+│   │   │   └── CTALink.astro
+│   │   ├── nav/
+│   │   │   ├── Nav.astro
+│   │   │   └── MobileMenu.astro (<dialog> component)
 │   │   ├── Footer.astro
-│   │   ├── Hero.astro
-│   │   ├── PathwayCard.astro
-│   │   ├── TrustBar.astro
-│   │   ├── AboutPreview.astro
-│   │   ├── WritingPreview.astro
-│   │   ├── WritingEntry.astro
-│   │   ├── EventCard.astro
-│   │   ├── IntakeForm.astro
-│   │   ├── ClosingCTA.astro
-│   │   └── SectionLabel.astro
+│   │   ├── home/
+│   │   │   ├── Hero.astro
+│   │   │   ├── PathwayCard.astro
+│   │   │   ├── TrustBar.astro
+│   │   │   ├── AboutPreview.astro
+│   │   │   ├── WritingPreview.astro
+│   │   │   └── ClosingCTA.astro
+│   │   ├── about/
+│   │   │   ├── Milestones.astro
+│   │   │   └── Philosophy.astro
+│   │   ├── work/
+│   │   │   └── IntakeForm.astro
+│   │   └── shared/
+│   │       ├── WritingEntry.astro  (used on home + writing page)
+│   │       └── EventCard.astro     (used on events page)
 │   ├── content/
 │   │   ├── writing/
 │   │   │   ├── essay-one.md
-│   │   │   ├── essay-two.md
 │   │   │   └── ...
 │   │   └── events/
 │   │       ├── physical-ai-feb-2026.md
-│   │       ├── toronto-hackathon.md
 │   │       └── ...
+│   ├── content.config.ts          (Astro 5 content collection schemas with Zod)
 │   ├── layouts/
-│   │   └── BaseLayout.astro   (contains <head>, nav, footer, global styles)
+│   │   └── BaseLayout.astro       (<head> with SEO props, nav, footer, ViewTransitions, global styles)
 │   ├── pages/
-│   │   ├── index.astro        (Home)
+│   │   ├── api/
+│   │   │   └── contact.ts         (form submission endpoint → Resend)
+│   │   ├── index.astro            (Home)
 │   │   ├── about.astro
 │   │   ├── work-with-me.astro
 │   │   ├── writing.astro
 │   │   └── events.astro
 │   └── styles/
-│       └── global.css         (CSS variables, resets, typography, base styles)
+│       ├── variables.css           (design tokens: colors, spacing, typography)
+│       ├── reset.css               (modern CSS reset)
+│       └── global.css              (base element styles, font imports)
 ├── astro.config.mjs
 ├── package.json
 └── tsconfig.json
