@@ -1,0 +1,115 @@
+---
+const pageLinks = [
+  { label: 'About', href: '/about' },
+  { label: 'Work With Me', href: '/work-with-me' },
+  { label: 'Writing', href: '/writing' },
+  { label: 'Events', href: '/events' },
+];
+
+const socialLinks = [
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/catherinemcmillan' },
+  { label: 'Substack', href: '#' },
+  { label: 'Email', href: 'mailto:hello@catherine-mcmillan.com' },
+];
+---
+
+<footer class="footer">
+  <div class="footer__inner container">
+    <div class="footer__top">
+      <a href="/" class="footer__logo">Catherine McMillan</a>
+      <nav class="footer__nav">
+        {pageLinks.map((link) => (
+          <a href={link.href} class="footer__link">{link.label}</a>
+        ))}
+      </nav>
+    </div>
+
+    <hr class="footer__divider" />
+
+    <div class="footer__bottom">
+      <p class="footer__copyright">&copy; 2026 Catherine McMillan</p>
+      <div class="footer__social">
+        {socialLinks.map((link) => (
+          <a href={link.href} class="footer__social-link" target="_blank" rel="noopener noreferrer">{link.label}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--bg-warm);
+    padding: var(--space-xl) 0;
+  }
+  .footer__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer__logo {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--espresso);
+  }
+  .footer__nav {
+    display: flex;
+    gap: 2.5rem;
+  }
+  .footer__link {
+    font-size: 0.825rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    transition: color var(--ease);
+  }
+  .footer__link:hover {
+    color: var(--accent);
+  }
+  .footer__divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 2rem 0;
+  }
+  .footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer__copyright {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    line-height: 1.6;
+  }
+  .footer__social {
+    display: flex;
+    gap: 2rem;
+  }
+  .footer__social-link {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    transition: color var(--ease);
+  }
+  .footer__social-link:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .footer__top,
+    .footer__bottom {
+      flex-direction: column;
+      gap: var(--space-md);
+      text-align: center;
+    }
+    .footer__nav {
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .footer__social {
+      gap: 1.5rem;
+    }
+  }
+</style>

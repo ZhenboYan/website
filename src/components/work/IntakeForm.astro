@@ -1,0 +1,226 @@
+---
+---
+
+<section class="intake section" id="contact">
+  <div class="container intake__inner">
+    <h2 class="intake__heading">Tell me about what you're working on.</h2>
+    <p class="intake__subtext">I'll review your note and follow up within a few days if there's a good fit.</p>
+
+    <form class="intake__form" id="intake-form">
+      <div class="form-field">
+        <label for="name" class="form-label">Your name</label>
+        <input type="text" id="name" name="name" placeholder="First and last name" required />
+      </div>
+
+      <fieldset class="form-field">
+        <legend class="form-label">What best describes you?</legend>
+        <div class="form-radios">
+          <label class="form-radio">
+            <input type="radio" name="type" value="Startup founder" required />
+            <span>Startup founder</span>
+          </label>
+          <label class="form-radio">
+            <input type="radio" name="type" value="Individual professional" />
+            <span>Individual professional</span>
+          </label>
+          <label class="form-radio">
+            <input type="radio" name="type" value="Other" />
+            <span>Other</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="form-field">
+        <label for="working-on" class="form-label">What are you working on or thinking about?</label>
+        <textarea id="working-on" name="workingOn" placeholder="A few sentences is great." required></textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="outcome" class="form-label">What would a great outcome look like for you?</label>
+        <textarea id="outcome" name="outcome" placeholder="What are you hoping to get out of working together?"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" required />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="form-submit">Send</button>
+      </div>
+    </form>
+
+    <div class="intake__success" id="intake-success" hidden>
+      <p>Thank you. I'll be in touch soon.</p>
+    </div>
+
+    <p class="intake__closing">
+      <em>Not sure if this is the right fit? That's okay — reach out anyway. The worst I can say is not right now.</em>
+    </p>
+  </div>
+</section>
+
+<style>
+  .intake__inner {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .intake__heading {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+  .intake__subtext {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-xl);
+  }
+  .intake__form {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: none;
+    padding: 0;
+  }
+  .form-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+  }
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: transparent;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    transition: border-color var(--ease);
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--text-tertiary);
+  }
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  .form-radios {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+  .form-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+  .form-radio input[type="radio"] {
+    accent-color: var(--accent);
+    width: auto;
+  }
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .form-submit {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    border-radius: 2px;
+    background-color: var(--accent);
+    color: var(--bg);
+    min-width: 200px;
+    transition: background-color var(--ease);
+  }
+  .form-submit:hover {
+    background-color: var(--accent-hover);
+  }
+  .intake__success p {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--espresso);
+    padding: var(--space-xl) 0;
+  }
+  .intake__closing {
+    margin-top: var(--space-lg);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .form-actions {
+      justify-content: stretch;
+    }
+    .form-submit {
+      width: 100%;
+    }
+    .form-radios {
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+  }
+</style>
+
+<script>
+  function initForm() {
+    const form = document.getElementById('intake-form');
+    const success = document.getElementById('intake-success');
+    if (!form || !success) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.form-submit');
+      if (btn) {
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+      }
+
+      // TODO: Implement /api/contact endpoint. For local run, show success.
+      // const data = new FormData(form);
+      // const body = Object.fromEntries(data.entries());
+      // const res = await fetch('/api/contact', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(body),
+      // });
+      // if (res.ok) { ... } else { ... }
+
+      form.hidden = true;
+      success.hidden = false;
+      if (btn) {
+        btn.textContent = 'Send';
+        btn.disabled = false;
+      }
+    });
+  }
+
+  initForm();
+  document.addEventListener('astro:after-swap', initForm);
+</script>

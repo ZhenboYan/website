@@ -1,0 +1,74 @@
+---
+interface Props {
+  number: string;
+  title: string;
+  description: string;
+  href: string;
+  linkText: string;
+}
+
+const { number, title, description, href, linkText } = Astro.props;
+---
+
+<div class="pathway-card">
+  <span class="pathway-card__number">{number}</span>
+  <h3 class="pathway-card__title">{title}</h3>
+  <p class="pathway-card__description">{description}</p>
+  <a href={href} class="pathway-card__link">
+    <span>{linkText}</span>
+    <span class="pathway-card__arrow" aria-hidden="true">&rarr;</span>
+  </a>
+</div>
+
+<style>
+  .pathway-card {
+    padding: 2.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .pathway-card__number {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-tertiary);
+  }
+  .pathway-card__title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--espresso);
+    line-height: 1.2;
+    transition: color var(--ease);
+  }
+  .pathway-card:hover .pathway-card__title {
+    color: var(--accent);
+  }
+  .pathway-card__description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .pathway-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.825rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: auto;
+    padding-top: var(--space-xs);
+    transition: color var(--ease);
+  }
+  .pathway-card__link:hover {
+    color: var(--accent-hover);
+  }
+  .pathway-card__arrow {
+    transition: transform var(--ease);
+  }
+  .pathway-card:hover .pathway-card__arrow {
+    transform: translateX(4px);
+  }
+</style>

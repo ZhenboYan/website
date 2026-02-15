@@ -1,0 +1,178 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLabel from '../components/common/SectionLabel.astro';
+import EventCard from '../components/shared/EventCard.astro';
+
+const upcomingEvents = [
+  {
+    date: 'FEB 26, 2026',
+    name: 'Physical AI Forecasting Event',
+    location: 'Washington, DC',
+    description: 'A deep-dive into the future of embodied AI with founders, researchers, and investors.',
+    rsvpUrl: '#',
+  },
+  {
+    date: 'MAR 12, 2026',
+    name: 'AI Collective Community Dinner',
+    location: 'New York, NY',
+    description: 'An intimate dinner for community leaders building at the frontier of AI.',
+    rsvpUrl: '#',
+  },
+];
+
+const pastEvents = [
+  { date: 'JAN 18, 2026', name: 'AI Ethics Roundtable', location: 'San Francisco, CA' },
+  { date: 'DEC 5, 2025', name: 'Toronto AI Hackathon', location: 'Toronto, Canada' },
+  { date: 'NOV 15, 2025', name: 'Community Builders Summit', location: 'Austin, TX' },
+  { date: 'OCT 22, 2025', name: 'Startup Strategy Workshop', location: 'Washington, DC' },
+];
+---
+
+<BaseLayout title="Events — Catherine McMillan">
+  <!-- Page Header -->
+  <section class="page-header section">
+    <div class="container">
+      <SectionLabel text="Events" />
+      <h1 class="page-header__title">Where to find me.</h1>
+      <p class="page-header__subtext">
+        I host and speak at AI community events, roundtables, and intimate dinners across 100+ cities. Here's what's coming up.
+      </p>
+    </div>
+  </section>
+
+  <!-- Upcoming Events -->
+  <section class="events-upcoming">
+    <div class="container events__inner">
+      {upcomingEvents.length > 0 ? (
+        upcomingEvents.map((event) => (
+          <EventCard {...event} />
+        ))
+      ) : (
+        <p class="events__empty">
+          <em>No upcoming events right now. Check back soon, or follow me on LinkedIn to stay in the loop.</em>
+        </p>
+      )}
+    </div>
+  </section>
+
+  <!-- Past Events -->
+  <section class="events-past section">
+    <div class="container">
+      <div class="events-past__header">
+        <SectionLabel text="Past Events" />
+        <button class="events-past__toggle" id="toggle-past">
+          View archive <span aria-hidden="true">&rarr;</span>
+        </button>
+      </div>
+      <div class="events-past__list" id="past-events-list" hidden>
+        {pastEvents.map((event) => (
+          <EventCard
+            date={event.date}
+            name={event.name}
+            location={event.location}
+            description=""
+            past={true}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Speaking Note -->
+  <section class="speaking-note">
+    <div class="container speaking-note__inner">
+      <p>
+        Interested in having me speak, host, or collaborate on an event?
+        <a href="/work-with-me#contact" class="speaking-note__link">Get in touch &rarr;</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-xl);
+  }
+  .page-header :global(.section-label) {
+    margin-bottom: var(--space-md);
+  }
+  .page-header__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 300;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--espresso);
+  }
+  .page-header__subtext {
+    margin-top: var(--space-md);
+    max-width: 600px;
+    color: var(--text-secondary);
+  }
+
+  .events__inner {
+    max-width: 900px;
+  }
+  .events__empty {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: var(--space-lg) 0;
+  }
+
+  .events-past__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+  }
+  .events-past__toggle {
+    font-size: 0.825rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    transition: color var(--ease);
+  }
+  .events-past__toggle:hover {
+    color: var(--accent-hover);
+  }
+
+  .speaking-note {
+    padding-bottom: var(--space-xl);
+  }
+  .speaking-note__inner {
+    text-align: center;
+  }
+  .speaking-note p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+  .speaking-note__link {
+    color: var(--accent);
+    font-weight: 500;
+    transition: color var(--ease);
+  }
+  .speaking-note__link:hover {
+    color: var(--accent-hover);
+  }
+</style>
+
+<script>
+  function initPastEvents() {
+    const toggle = document.getElementById('toggle-past');
+    const list = document.getElementById('past-events-list');
+    if (!toggle || !list) return;
+
+    toggle.addEventListener('click', () => {
+      const isHidden = list.hidden;
+      list.hidden = !isHidden;
+      toggle.innerHTML = isHidden
+        ? 'Hide archive <span aria-hidden="true">&darr;</span>'
+        : 'View archive <span aria-hidden="true">&rarr;</span>';
+    });
+  }
+
+  initPastEvents();
+  document.addEventListener('astro:after-swap', initPastEvents);
+</script>

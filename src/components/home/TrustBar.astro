@@ -1,0 +1,53 @@
+---
+const items = [
+  'Fulbright Scholar',
+  'BCG BrightHouse',
+  'Booz Allen Hamilton',
+  '150K+ Community Members',
+  '100+ Cities Worldwide',
+];
+---
+
+<section class="trust-bar">
+  <div class="container">
+    <hr class="divider" />
+    <div class="trust-bar__inner">
+      {items.map((item, i) => (
+        <>
+          <span class="trust-bar__item">{item}</span>
+          {i < items.length - 1 && <span class="trust-bar__dot" aria-hidden="true" />}
+        </>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust-bar {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-2xl);
+  }
+  .trust-bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: var(--space-xl);
+  }
+  .trust-bar__item {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  .trust-bar__dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background-color: var(--text-tertiary);
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+</style>

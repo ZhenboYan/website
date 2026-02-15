@@ -1,18 +1,89 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import PathwayCard from '../components/home/PathwayCard.astro';
+import TrustBar from '../components/home/TrustBar.astro';
+import AboutPreview from '../components/home/AboutPreview.astro';
+import WritingPreview from '../components/home/WritingPreview.astro';
+import ClosingCTA from '../components/home/ClosingCTA.astro';
+import SectionLabel from '../components/common/SectionLabel.astro';
 
+const pathways = [
+  {
+    number: '01',
+    title: 'Strategic Advisory',
+    description: 'For early-stage founders building in and around AI. Long-term, equity-based partnerships focused on growth, community, and go-to-market.',
+    href: '/work-with-me#advisory',
+    linkText: 'Learn more',
+  },
+  {
+    number: '02',
+    title: 'Consulting',
+    description: 'For professionals navigating career transitions, building public presence, or developing strategic clarity. Paid engagements.',
+    href: '/work-with-me#consulting',
+    linkText: 'Learn more',
+  },
+  {
+    number: '03',
+    title: 'Events & Speaking',
+    description: 'Find me at AI community events, roundtables, and dinners across 100+ cities worldwide.',
+    href: '/events',
+    linkText: 'See events',
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Hello World</title>
-	</head>
-	<body>
-		<h1>Hello World! 👋</h1>
-		<p>Welcome to your new Astro site.</p>
-	</body>
-</html>
+<BaseLayout title="Catherine McMillan — Advisor, Consultant, Community Builder">
+  <Hero />
+
+  <!-- Pathways -->
+  <section class="pathways section">
+    <div class="container">
+      <SectionLabel text="How I Can Help" />
+      <div class="pathways__grid">
+        {pathways.map((pathway) => (
+          <PathwayCard {...pathway} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <TrustBar />
+  <AboutPreview />
+  <WritingPreview />
+  <ClosingCTA />
+</BaseLayout>
+
+<style>
+  .pathways {
+    padding-bottom: 0;
+  }
+  .pathways :global(.section-label) {
+    margin-bottom: 3.5rem;
+  }
+  .pathways__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .pathways__grid > :global(:not(:last-child)) {
+    border-right: 1px solid var(--rule);
+    padding-right: 2.5rem;
+  }
+  .pathways__grid > :global(:not(:first-child)) {
+    padding-left: 2.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .pathways__grid {
+      grid-template-columns: 1fr;
+    }
+    .pathways__grid > :global(:not(:last-child)) {
+      border-right: none;
+      border-bottom: 1px solid var(--rule);
+      padding-right: 0;
+    }
+    .pathways__grid > :global(:not(:first-child)) {
+      padding-left: 0;
+    }
+  }
+</style>

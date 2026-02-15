@@ -1,0 +1,71 @@
+---
+const milestones = [
+  { year: '2022', title: 'BCG BrightHouse', detail: 'Strategist & thought leadership' },
+  { year: '2023', title: 'Fulbright Scholar', detail: 'South Korea' },
+  { year: '2023', title: 'DayTrip', detail: 'Creator partnerships, Seoul' },
+  { year: '2024', title: 'Booz Allen Hamilton', detail: 'National Cyber Platform' },
+  { year: '2024', title: 'The AI Collective', detail: 'Founding Director of Operations' },
+  { year: '2025', title: 'DCTAV', detail: 'Venture Fellow' },
+];
+---
+
+<section class="milestones section">
+  <div class="container">
+    <div class="milestones__track">
+      {milestones.map((m) => (
+        <div class="milestones__item">
+          <span class="milestones__year">{m.year}</span>
+          <span class="milestones__title">{m.title}</span>
+          <span class="milestones__detail">{m.detail}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .milestones {
+    padding-block: var(--space-xl);
+  }
+  .milestones__track {
+    display: flex;
+    gap: var(--space-xl);
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-lg);
+    overflow-x: auto;
+  }
+  .milestones__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 160px;
+  }
+  .milestones__year {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .milestones__title {
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+  }
+  .milestones__detail {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .milestones__track {
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+    .milestones__item {
+      min-width: auto;
+    }
+  }
+</style>

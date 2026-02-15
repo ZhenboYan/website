@@ -1,0 +1,68 @@
+---
+import SectionLabel from '../common/SectionLabel.astro';
+import CTALink from '../common/CTALink.astro';
+---
+
+<section class="about-preview">
+  <div class="about-preview__inner container">
+    <div class="about-preview__photo">
+      <div class="about-preview__photo-placeholder">
+        <span>Photo</span>
+      </div>
+    </div>
+    <div class="about-preview__text">
+      <SectionLabel text="About" />
+      <h2>From Fulbright scholar to building one of the world's largest AI communities.</h2>
+      <p class="about-preview__body">
+        Catherine McMillan brings a rare combination of strategic rigor and human-centered thinking to the AI landscape. From advising early-stage startups to scaling communities across 100+ cities, she bridges the gap between what AI can do and what people need it to do.
+      </p>
+      <CTALink href="/about">Read my story</CTALink>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-preview {
+    background-color: var(--bg-warm);
+    padding-block: var(--space-3xl);
+  }
+  .about-preview__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+  .about-preview__photo-placeholder {
+    aspect-ratio: 4 / 5;
+    background: var(--bg);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .about-preview__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  .about-preview__text h2 {
+    max-width: 520px;
+  }
+  .about-preview__body {
+    max-width: 520px;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .about-preview__inner {
+      grid-template-columns: 1fr;
+    }
+    .about-preview__photo-placeholder {
+      aspect-ratio: 3 / 4;
+    }
+  }
+</style>

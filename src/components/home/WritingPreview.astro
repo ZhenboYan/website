@@ -1,0 +1,54 @@
+---
+import SectionLabel from '../common/SectionLabel.astro';
+import CTALink from '../common/CTALink.astro';
+import WritingEntry from '../shared/WritingEntry.astro';
+
+const previewPosts = [
+  {
+    date: 'February 2026',
+    title: 'Why AI Communities Need Operators, Not Just Evangelists',
+    description: 'On the invisible infrastructure that turns hype into lasting ecosystems.',
+    href: '#',
+  },
+  {
+    date: 'January 2026',
+    title: 'The Case for Slow Strategy in a Fast-Moving Market',
+    description: 'What I tell every founder who wants to move fast and break things.',
+    href: '#',
+  },
+  {
+    date: 'December 2025',
+    title: 'Building in Public: Year One at The AI Collective',
+    description: 'Lessons from scaling a community to 150,000 members across 100+ cities.',
+    href: '#',
+  },
+];
+---
+
+<section class="writing-preview section">
+  <div class="container">
+    <div class="writing-preview__header">
+      <SectionLabel text="Selected Writing" />
+      <CTALink href="/writing">View all</CTALink>
+    </div>
+    <div class="writing-preview__list">
+      {previewPosts.map((post) => (
+        <WritingEntry
+          date={post.date}
+          title={post.title}
+          description={post.description}
+          href={post.href}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .writing-preview__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+  }
+</style>

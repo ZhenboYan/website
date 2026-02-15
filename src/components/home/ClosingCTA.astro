@@ -1,0 +1,35 @@
+---
+import CTAButton from '../common/CTAButton.astro';
+---
+
+<section class="closing-cta">
+  <div class="container closing-cta__inner">
+    <h2 class="closing-cta__heading">Let's work together.</h2>
+    <p class="closing-cta__subtext">
+      Whether you're building a startup or navigating your next chapter, I'd love to hear what you're working on.
+    </p>
+    <CTAButton href="/work-with-me">Start a conversation</CTAButton>
+  </div>
+</section>
+
+<style>
+  .closing-cta {
+    padding-block: var(--space-2xl);
+  }
+  .closing-cta__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-md);
+  }
+  .closing-cta__heading {
+    font-size: 2rem;
+    font-weight: 300;
+  }
+  .closing-cta__subtext {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    max-width: 480px;
+  }
+</style>

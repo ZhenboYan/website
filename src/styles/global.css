@@ -1,0 +1,75 @@
+/* ── Font Imports (self-hosted via @fontsource) ── */
+@import '@fontsource/cormorant-garamond/300.css';
+@import '@fontsource/cormorant-garamond/300-italic.css';
+@import '@fontsource/cormorant-garamond/400.css';
+@import '@fontsource/cormorant-garamond/400-italic.css';
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
+@import '@fontsource/cormorant-garamond/600.css';
+@import '@fontsource/dm-sans/300.css';
+@import '@fontsource/dm-sans/300-italic.css';
+@import '@fontsource/dm-sans/400.css';
+@import '@fontsource/dm-sans/400-italic.css';
+@import '@fontsource/dm-sans/500.css';
+@import '@fontsource/dm-sans/600.css';
+
+/* ── Design Tokens ── */
+@import './variables.css';
+
+/* ── Reset ── */
+@import './reset.css';
+
+/* ── Base Styles ── */
+body {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  background-color: var(--bg);
+  line-height: 1.75;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--espresso);
+  line-height: 1.3;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+p + p {
+  margin-top: var(--space-sm);
+}
+
+/* ── Utility: Content Container ── */
+.container {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--page-padding);
+}
+
+/* ── Utility: Section Padding ── */
+.section {
+  padding-block: var(--space-3xl);
+}
+
+/* ── Utility: Max Body Text Width ── */
+.prose {
+  max-width: 520px;
+}
+
+/* ── Hairline Divider ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+}
