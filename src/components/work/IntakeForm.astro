@@ -202,18 +202,27 @@
         btn.disabled = true;
       }
 
-      // TODO: Implement /api/contact endpoint. For local run, show success.
-      // const data = new FormData(form);
-      // const body = Object.fromEntries(data.entries());
-      // const res = await fetch('/api/contact', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(body),
-      // });
-      // if (res.ok) { ... } else { ... }
+      const data = new FormData(form);
+      const body = Object.fromEntries(data.entries());
 
-      form.hidden = true;
-      success.hidden = false;
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+
+        if (res.ok) {
+          form.hidden = true;
+          success.hidden = false;
+        } else {
+          const { error } = await res.json().catch(() => ({ error: 'Something went wrong.' }));
+          alert(error || 'Something went wrong. Please try again.');
+        }
+      } catch {
+        alert('Network error. Please check your connection and try again.');
+      }
+
       if (btn) {
         btn.textContent = 'Send';
         btn.disabled = false;

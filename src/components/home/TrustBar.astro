@@ -11,12 +11,18 @@ const items = [
 <section class="trust-bar">
   <div class="container">
     <hr class="divider" />
-    <div class="trust-bar__inner">
-      {items.map((item, i) => (
-        <>
-          <span class="trust-bar__item">{item}</span>
-          {i < items.length - 1 && <span class="trust-bar__dot" aria-hidden="true" />}
-        </>
+  </div>
+  <div class="trust-bar__marquee">
+    <div class="trust-bar__track">
+      {[0, 1, 2, 3].map(() => (
+        <div class="trust-bar__set" aria-hidden="true">
+          {items.map((item) => (
+            <>
+              <span class="trust-bar__item">{item}</span>
+              <span class="trust-bar__dot" aria-hidden="true" />
+            </>
+          ))}
+        </div>
       ))}
     </div>
   </div>
@@ -26,14 +32,23 @@ const items = [
   .trust-bar {
     padding-top: var(--space-xl);
     padding-bottom: var(--space-2xl);
+    overflow: hidden;
   }
-  .trust-bar__inner {
+  .trust-bar__marquee {
+    padding-top: var(--space-xl);
+    position: relative;
+  }
+  .trust-bar__track {
+    display: flex;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+  }
+  .trust-bar__set {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding-top: var(--space-xl);
+    gap: 1.5rem;
+    padding-right: 1.5rem;
+    flex-shrink: 0;
   }
   .trust-bar__item {
     font-size: 0.75rem;
@@ -41,6 +56,7 @@ const items = [
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text-tertiary);
+    white-space: nowrap;
   }
   .trust-bar__dot {
     width: 3px;
@@ -49,5 +65,14 @@ const items = [
     background-color: var(--text-tertiary);
     opacity: 0.4;
     flex-shrink: 0;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-25%);
+    }
   }
 </style>

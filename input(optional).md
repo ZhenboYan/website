@@ -146,15 +146,15 @@ Provide **3-5 upcoming events** for launch. For each event, provide:
 
 ## 5. External Links & Profiles
 
-| # | Link | URL | Status |
-|---|---|---|---|
-| 5.1 | **Substack profile** | | ⬜ |
-| 5.2 | **LinkedIn profile** | | ⬜ |
-| 5.3 | **The AI Collective website** | | ⬜ |
-| 5.4 | **Luma profile (if public)** | | ⬜ |
-| 5.5 | **Email address (for footer / form delivery)** | | ⬜ |
-| 5.6 | **Twitter/X (optional)** | | ⬜ |
-| 5.7 | **Other social profiles (optional)** | | ⬜ |
+| # | Link | URL                                               | Status |
+|---|---|---------------------------------------------------|---|
+| 5.1 | **Substack profile** |  https://medium.com/@catherine-mcmillan                                                 | ⬜ |
+| 5.2 | **LinkedIn profile** | https://www.linkedin.com/in/catherine-r-mcmillan/ | ⬜ |
+| 5.3 | **The AI Collective website** |                                                   | ⬜ |
+| 5.4 | **Luma profile (if public)** |                                                   | ⬜ |
+| 5.5 | **Email address (for footer / form delivery)** |                                                   | ⬜ |
+| 5.6 | **Twitter/X (optional)** |                                                   | ⬜ |
+| 5.7 | **Other social profiles (optional)** |                                                   | ⬜ |
 
 ---
 

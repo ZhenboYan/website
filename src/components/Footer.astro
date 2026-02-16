@@ -7,32 +7,32 @@ const pageLinks = [
 ];
 
 const socialLinks = [
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/catherinemcmillan' },
-  { label: 'Substack', href: '#' },
-  { label: 'Email', href: 'mailto:hello@catherine-mcmillan.com' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/catherine-r-mcmillan/' },
+  { label: 'Medium', href: 'https://medium.com/@catherine-mcmillan' },
+  { label: 'Email', href: 'mailto:cathymc924+workwithme@gmail.com' },
 ];
 ---
 
 <footer class="footer">
   <div class="footer__inner container">
-    <!--<div class="footer__top">-->
-    <!--  <a href="/" class="footer__logo">Catherine McMillan</a>-->
-    <!--  <nav class="footer__nav">-->
-    <!--    {pageLinks.map((link) => (-->
-    <!--      <a href={link.href} class="footer__link">{link.label}</a>-->
-    <!--    ))}-->
-    <!--  </nav>-->
-    <!--</div>-->
+    <div class="footer__top">
+      <a href="/" class="footer__logo">Catherine McMillan</a>
+      <nav class="footer__nav">
+        {pageLinks.map((link) => (
+          <a href={link.href} class="footer__link">{link.label}</a>
+        ))}
+      </nav>
+    </div>
 
-    <!--<hr class="footer__divider" />-->
+    <hr class="footer__divider" />
 
     <div class="footer__bottom">
       <p class="footer__copyright">&copy; 2026 Catherine McMillan</p>
-      <!--<div class="footer__social">-->
-      <!--  {socialLinks.map((link) => (-->
-      <!--    <a href={link.href} class="footer__social-link" target="_blank" rel="noopener noreferrer">{link.label}</a>-->
-      <!--  ))}-->
-      <!--</div>-->
+      <div class="footer__social">
+        {socialLinks.map((link) => (
+          <a href={link.href} class="footer__social-link" target="_blank" rel="noopener noreferrer">{link.label}</a>
+        ))}
+      </div>
     </div>
   </div>
 </footer>
@@ -40,7 +40,7 @@ const socialLinks = [
 <style>
   .footer {
     background-color: var(--bg-warm);
-    padding: var(--space-xl) 0;
+    padding: var(--space-lg) 0 var(--space-xl) 0;
   }
   .footer__top {
     display: flex;
@@ -52,6 +52,7 @@ const socialLinks = [
     font-size: 1.25rem;
     font-weight: 500;
     color: var(--espresso);
+    text-decoration: none;
   }
   .footer__nav {
     display: flex;
@@ -64,6 +65,7 @@ const socialLinks = [
     text-transform: uppercase;
     color: var(--text-tertiary);
     transition: color var(--ease);
+    text-decoration: none;
   }
   .footer__link:hover {
     color: var(--accent);
@@ -91,6 +93,7 @@ const socialLinks = [
     font-size: 0.8rem;
     color: var(--text-tertiary);
     transition: color var(--ease);
+    text-decoration: none;
   }
   .footer__social-link:hover {
     color: var(--accent);

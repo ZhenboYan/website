@@ -7,10 +7,11 @@ import heroImage from '../../assets/images/hero.jpg';
 <section class="hero">
   <div class="hero__inner container">
     <div class="hero__text">
-      <p class="hero__eyebrow">Founding Director of Operations, The AI Collective</p>
+      <canvas class="hero__particles" id="hero-particles"></canvas>
+      <p class="hero__eyebrow">AI ecosystem, strategy, partnerships</p>
       <h1 class="hero__name">Catherine McMillan</h1>
       <p class="hero__positioning">
-        <em>Making AI legible and accessible to the world — one community, one conversation, one founder at a time.</em>
+        <em>Making AI legible and accessible to the world — one community, one company, one conversation, at a time.</em>
       </p>
       <!--<CTALink href="/work-with-me">Work with me</CTALink>-->
     </div>
@@ -28,7 +29,7 @@ import heroImage from '../../assets/images/hero.jpg';
     display: flex;
     align-items: center;
     padding-top: var(--space-3xl);
-    padding-bottom: var(--space-xl);
+    padding-bottom: 0;
   }
   .hero__inner {
     display: grid;
@@ -40,8 +41,17 @@ import heroImage from '../../assets/images/hero.jpg';
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
+    position: relative;
+    overflow: visible;
+  }
+  .hero__particles {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
   }
   .hero__eyebrow {
+    position: relative;
+    z-index: 1;
     font-family: var(--font-body);
     font-size: 0.75rem;
     font-weight: 500;
@@ -51,15 +61,19 @@ import heroImage from '../../assets/images/hero.jpg';
     animation: fadeUp 0.8s var(--ease-out) 0.2s both;
   }
   .hero__name {
+    position: relative;
+    z-index: 1;
     font-family: var(--font-display);
     font-size: clamp(3rem, 5.5vw, 5rem);
-    font-weight: 300;
+    font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.02em;
     color: var(--espresso);
     animation: fadeUp 0.8s var(--ease-out) 0.4s both;
   }
   .hero__positioning {
+    position: relative;
+    z-index: 1;
     font-family: var(--font-display);
     font-size: clamp(1.15rem, 1.8vw, 1.4rem);
     font-weight: 300;
@@ -83,7 +97,10 @@ import heroImage from '../../assets/images/hero.jpg';
     border-radius: 2px;
     overflow: hidden;
     position: relative;
-    background: var(--bg-warm);
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .hero__img {
@@ -126,3 +143,191 @@ import heroImage from '../../assets/images/hero.jpg';
     }
   }
 </style>
+
+<script>
+  function initParticles() {
+    const canvas = document.getElementById('hero-particles') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const textCol = canvas.parentElement!;
+    const hero = textCol.closest('.hero') as HTMLElement;
+    let animId = 0;
+    const mouse = { x: -9999, y: -9999 };
+    const MOUSE_R = 180;
+    const PAD = 150;
+    let cw = 0, ch = 0;
+
+    function isDark() {
+      return document.documentElement.getAttribute('data-theme') === 'dark';
+    }
+
+    // Nebula color palettes — warm tones + cool accent for depth
+    function getColors(): [number, number, number][] {
+      return isDark()
+        ? [
+            [212, 148, 111], // warm accent
+            [154, 158, 176], // cool gray-blue
+            [107, 112, 132], // muted blue
+            [180, 160, 200], // faint purple nebula
+            [240, 235, 229], // bright star white
+            [130, 170, 200], // icy blue
+          ]
+        : [
+            [191, 123, 94],  // accent
+            [168, 105, 79],  // accent-hover
+            [160, 148, 132], // stone
+            [140, 120, 160], // faint purple
+            [61, 46, 31],    // espresso
+            [181, 170, 158], // tertiary
+          ];
+    }
+
+    interface P {
+      x: number; y: number; bx: number; by: number;
+      sz: number; glow: number;
+      r: number; g: number; b: number;
+      ma: number; a: number;
+      vx: number; vy: number;
+      dr: number; ds: number; doff: number;
+      ps: number; poff: number;
+      twinkle: boolean;
+    }
+
+    function makeP(w: number, h: number): P {
+      const x = Math.random() * w;
+      const y = Math.random() * h;
+      const cols = getColors();
+      const [r, g, b] = cols[Math.floor(Math.random() * cols.length)];
+      // Mix of tiny stars, medium dust, and large nebula blobs
+      const kind = Math.random();
+      let sz: number, glow: number, ma: number;
+      if (kind < 0.15) {
+        // Large nebula blob — very diffuse
+        sz = Math.random() * 6 + 4;
+        glow = sz * 6;
+        ma = Math.random() * 0.08 + 0.02;
+      } else if (kind < 0.5) {
+        // Medium dust
+        sz = Math.random() * 2.5 + 1;
+        glow = sz * 4;
+        ma = Math.random() * 0.3 + 0.08;
+      } else {
+        // Tiny stars — sharp, brighter
+        sz = Math.random() * 1.2 + 0.3;
+        glow = sz * 3;
+        ma = Math.random() * 0.5 + 0.15;
+      }
+      return {
+        x, y, bx: x, by: y,
+        sz, glow, r, g, b,
+        ma, a: 0,
+        vx: 0, vy: 0,
+        dr: Math.random() * 50 + 15,
+        ds: Math.random() * 0.0006 + 0.00015,
+        doff: Math.random() * Math.PI * 2,
+        ps: Math.random() * 0.003 + 0.0005,
+        poff: Math.random() * Math.PI * 2,
+        twinkle: kind >= 0.5 && Math.random() > 0.5,
+      };
+    }
+
+    function resize() {
+      const tr = textCol.getBoundingClientRect();
+      cw = tr.width + PAD * 2;
+      ch = tr.height + PAD * 2;
+      canvas!.style.width = cw + 'px';
+      canvas!.style.height = ch + 'px';
+      canvas!.style.left = -PAD + 'px';
+      canvas!.style.top = -PAD + 'px';
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas!.width = cw * dpr;
+      canvas!.height = ch * dpr;
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    resize();
+    const COUNT = 100;
+    const particles: P[] = Array.from({ length: COUNT }, () => makeP(cw, ch));
+
+    function animate(t: number) {
+      ctx!.clearRect(0, 0, cw, ch);
+
+      for (const p of particles) {
+        // Slow, drifting orbital motion
+        const tx = p.bx + Math.sin(t * p.ds + p.doff) * p.dr
+                       + Math.sin(t * p.ds * 0.4 + p.doff * 2) * p.dr * 0.3;
+        const ty = p.by + Math.cos(t * p.ds * 0.7 + p.doff) * p.dr * 0.6
+                       + Math.cos(t * p.ds * 0.3 + p.doff * 1.5) * p.dr * 0.2;
+
+        // Mouse repulsion
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        let fx = 0, fy = 0;
+        if (dist < MOUSE_R && dist > 0) {
+          const f = ((MOUSE_R - dist) / MOUSE_R) ** 1.5;
+          const ang = Math.atan2(dy, dx);
+          fx = Math.cos(ang) * f * 4;
+          fy = Math.sin(ang) * f * 4;
+        }
+
+        p.vx += (tx - p.x) * 0.01 + fx;
+        p.vy += (ty - p.y) * 0.01 + fy;
+        p.vx *= 0.94;
+        p.vy *= 0.94;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Pulsing alpha — twinkle stars flicker faster
+        const pulseRate = p.twinkle ? p.ps * 4 : p.ps;
+        p.a = p.ma * (0.5 + 0.5 * Math.sin(t * pulseRate + p.poff));
+
+        // Outer nebula glow
+        const grad = ctx!.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.glow);
+        grad.addColorStop(0, `rgba(${p.r},${p.g},${p.b},${p.a * 0.25})`);
+        grad.addColorStop(0.4, `rgba(${p.r},${p.g},${p.b},${p.a * 0.08})`);
+        grad.addColorStop(1, `rgba(${p.r},${p.g},${p.b},0)`);
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.glow, 0, Math.PI * 2);
+        ctx!.fillStyle = grad;
+        ctx!.fill();
+
+        // Core dot
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.sz, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${p.r},${p.g},${p.b},${p.a})`;
+        ctx!.fill();
+      }
+
+      animId = requestAnimationFrame(animate);
+    }
+
+    function onMove(e: MouseEvent) {
+      const cr = canvas!.getBoundingClientRect();
+      mouse.x = e.clientX - cr.left;
+      mouse.y = e.clientY - cr.top;
+    }
+    function onLeave() {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    }
+
+    hero.addEventListener('mousemove', onMove);
+    hero.addEventListener('mouseleave', onLeave);
+    window.addEventListener('resize', resize);
+
+    animId = requestAnimationFrame(animate);
+
+    document.addEventListener('astro:before-swap', () => {
+      cancelAnimationFrame(animId);
+      hero.removeEventListener('mousemove', onMove);
+      hero.removeEventListener('mouseleave', onLeave);
+      window.removeEventListener('resize', resize);
+    }, { once: true });
+  }
+
+  initParticles();
+  document.addEventListener('astro:after-swap', initParticles);
+</script>
