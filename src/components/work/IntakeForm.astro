@@ -7,9 +7,14 @@
     <p class="intake__subtext">I'll review your note and follow up within a few days if there's a good fit.</p>
 
     <form class="intake__form" id="intake-form">
+      <!-- Honeypot field - hidden from users, catches bots -->
+      <div class="honeypot" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+
       <div class="form-field">
         <label for="name" class="form-label">Your name</label>
-        <input type="text" id="name" name="name" placeholder="First and last name" required />
+        <input type="text" id="name" name="name" placeholder="First and last name" maxlength="100" required />
       </div>
 
       <fieldset class="form-field">
@@ -32,17 +37,17 @@
 
       <div class="form-field">
         <label for="working-on" class="form-label">What are you working on or thinking about?</label>
-        <textarea id="working-on" name="workingOn" placeholder="A few sentences is great." required></textarea>
+        <textarea id="working-on" name="workingOn" placeholder="A few sentences is great." maxlength="2000" required></textarea>
       </div>
 
       <div class="form-field">
         <label for="outcome" class="form-label">What would a great outcome look like for you?</label>
-        <textarea id="outcome" name="outcome" placeholder="What are you hoping to get out of working together?"></textarea>
+        <textarea id="outcome" name="outcome" placeholder="What are you hoping to get out of working together?" maxlength="2000"></textarea>
       </div>
 
       <div class="form-field">
         <label for="email" class="form-label">Email</label>
-        <input type="email" id="email" name="email" placeholder="your@email.com" required />
+        <input type="email" id="email" name="email" placeholder="your@email.com" maxlength="254" required />
       </div>
 
       <div class="form-actions">
@@ -174,6 +179,15 @@
     color: var(--text-secondary);
   }
 
+  /* Honeypot field - hidden from users */
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
   @media (max-width: 768px) {
     .form-actions {
       justify-content: stretch;
@@ -194,8 +208,19 @@
     const success = document.getElementById('intake-success');
     if (!form || !success) return;
 
+    // Track when form was loaded (for time-based validation)
+    const formLoadTime = Date.now();
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // Time-based validation: form must be open for at least 3 seconds
+      const timeElapsed = (Date.now() - formLoadTime) / 1000;
+      if (timeElapsed < 3) {
+        alert('Please take a moment to review your submission.');
+        return;
+      }
+
       const btn = form.querySelector('.form-submit');
       if (btn) {
         btn.textContent = 'Sending...';
@@ -204,6 +229,9 @@
 
       const data = new FormData(form);
       const body = Object.fromEntries(data.entries());
+
+      // Add timestamp for server-side validation
+      body.timestamp = formLoadTime;
 
       try {
         const res = await fetch('/api/contact', {
