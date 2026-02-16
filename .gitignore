@@ -19,6 +19,7 @@ pnpm-debug.log*
 
 # Vercel
 .vercel/
+.claude/
 
 # OS files
 .DS_Store
