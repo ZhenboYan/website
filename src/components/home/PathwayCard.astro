@@ -14,10 +14,12 @@ const { number, title, description, href, linkText } = Astro.props;
   <span class="pathway-card__number">{number}</span>
   <h3 class="pathway-card__title">{title}</h3>
   <p class="pathway-card__description">{description}</p>
-  <a href={href} class="pathway-card__link">
-    <span>{linkText}</span>
-    <span class="pathway-card__arrow" aria-hidden="true">&rarr;</span>
-  </a>
+  {linkText && (
+    <a href={href} class="pathway-card__link">
+      <span>{linkText}</span>
+      <span class="pathway-card__arrow" aria-hidden="true">&rarr;</span>
+    </a>
+  )}
 </div>
 
 <style>
@@ -29,7 +31,7 @@ const { number, title, description, href, linkText } = Astro.props;
   }
   .pathway-card__number {
     font-family: var(--font-display);
-    font-size: 0.85rem;
+    font-size: 1.75rem;
     font-weight: 400;
     color: var(--text-tertiary);
   }

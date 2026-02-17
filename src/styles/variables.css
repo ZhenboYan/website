@@ -11,6 +11,7 @@
   --espresso: #3D2E1F;
   --stone: #A09484;
   --rule: rgba(42, 42, 42, 0.08);
+  --bg-rgb: 250, 247, 242;
 
   /* ── Spacing Scale ── */
   --space-xs: 0.5rem;
@@ -32,6 +33,20 @@
   /* ── Transitions ── */
   --ease: 0.3s ease;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] {
+  --bg: #1A1D24;
+  --bg-warm: #22262E;
+  --text-primary: #E8E4DF;
+  --text-secondary: #9A9EB0;
+  --text-tertiary: #6B7084;
+  --accent: #D4946F;
+  --accent-hover: #E0A882;
+  --accent-light: rgba(212, 148, 111, 0.12);
+  --espresso: #F0EBE5;
+  --rule: rgba(232, 228, 223, 0.1);
+  --bg-rgb: 26, 29, 36;
 }
 
 @media (max-width: 767px) {

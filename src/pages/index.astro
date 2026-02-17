@@ -1,10 +1,45 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/home/Hero.astro';
+import SectionLabel from '../components/common/SectionLabel.astro';
+import PathwayCard from '../components/home/PathwayCard.astro';
+import TrustBar from '../components/home/TrustBar.astro';
+import ClosingCTA from '../components/home/ClosingCTA.astro';
 ---
 
 <BaseLayout title="Catherine McMillan — Advisor, Consultant, Community Builder">
   <Hero />
+
+  <section class="pathways section container">
+    <SectionLabel text="How I Can Help" />
+    <div class="pathways__grid">
+      <PathwayCard
+        number="01"
+        title="Strategic Advisory"
+        description="Equity-based partnerships with early-stage AI startups. I help founders with go-to-market strategy, community building, and operational clarity."
+        href="/work-with-me"
+        linkText=""
+      />
+      <PathwayCard
+        number="02"
+        title="Consulting"
+        description="Paid engagements for professionals navigating career transitions, public presence, and strategic positioning in the AI landscape."
+        href="/work-with-me"
+        linkText=""
+      />
+      <PathwayCard
+        number="03"
+        title="Community & Events"
+        description="Curated gatherings, roundtables, and intimate dinners bringing together founders, researchers, and investors across 100+ cities."
+        href="/events"
+        linkText="See upcoming events"
+      />
+    </div>
+  </section>
+
+  <TrustBar />
+
+  <ClosingCTA />
 
 </BaseLayout>
 

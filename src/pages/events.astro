@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLabel from '../components/common/SectionLabel.astro';
+import CTALink from '../components/common/CTALink.astro';
+---
+
+<BaseLayout title="Events — Catherine McMillan">
+
+  <!-- 10a: Page Header -->
+  <section class="page-header section">
+    <div class="container">
+      <SectionLabel text="Events" />
+      <h2 class="page-header__title">Where to find me.</h2>
+      <p class="page-header__subtext">
+        I host and speak at AI community events, roundtables, and intimate dinners
+        across 100+ cities. Here's what's coming up.
+      </p>
+    </div>
+  </section>
+
+  <!-- 10b: Luma Calendar Embed -->
+  <section class="events-calendar section">
+    <div class="container events-calendar__inner">
+      <iframe
+        id="luma-embed"
+        class="events-calendar__embed"
+        allowfullscreen
+        aria-hidden="false"
+        tabindex="0"
+        title="Upcoming events calendar"
+      ></iframe>
+    </div>
+  </section>
+
+  <!-- 10d: Speaking / Collaboration Note -->
+  <section class="speaking-note">
+    <div class="container speaking-note__inner">
+      <p class="speaking-note__text">
+        Interested in having me speak, host, or collaborate on an event?
+      </p>
+      <CTALink href="/work-with-me#contact">Get in touch</CTALink>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ── 10a: Page Header ── */
+  .page-header {
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    background-color: var(--bg);
+  }
+  .page-header :global(.section-label) {
+    margin-bottom: var(--space-md);
+  }
+  .page-header__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 300;
+    color: var(--espresso);
+    line-height: 1.3;
+  }
+  .page-header__subtext {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-top: var(--space-sm);
+    line-height: 1.7;
+  }
+
+  /* ── 10b: Luma Calendar Embed ── */
+  .events-calendar {
+    background-color: var(--bg);
+    padding-top: 0;
+  }
+  .events-calendar__inner {
+    max-width: 900px;
+    margin-inline: auto;
+  }
+  .events-calendar__embed {
+    width: 100%;
+    height: 700px;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: transparent;
+  }
+
+  /* ── 10d: Speaking Note ── */
+  .speaking-note {
+    padding-block: var(--space-xl);
+    background-color: var(--bg);
+  }
+  .speaking-note__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-sm);
+  }
+  .speaking-note__text {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .page-header {
+      padding-top: 6rem;
+      padding-bottom: 3rem;
+    }
+    .events-calendar__embed {
+      height: 500px;
+    }
+  }
+</style>
+
+<script>
+  const BASE_URL = 'https://lu.ma/embed/calendar/cal-pcRwMEa9JSAGUes/events';
+
+  function isLight() {
+    return document.documentElement.getAttribute('data-theme') !== 'dark';
+  }
+
+  function updateEmbed() {
+    const iframe = document.getElementById('luma-embed') as HTMLIFrameElement | null;
+    if (!iframe) return;
+    const url = isLight() ? `${BASE_URL}?lt=light` : BASE_URL;
+    if (iframe.src !== url) iframe.src = url;
+  }
+
+  function initLumaEmbed() {
+    updateEmbed();
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.attributeName === 'data-theme') {
+          updateEmbed();
+          break;
+        }
+      }
+    });
+    observer.observe(document.documentElement, { attributes: true });
+  }
+
+  initLumaEmbed();
+  document.addEventListener('astro:after-swap', initLumaEmbed);
+</script>

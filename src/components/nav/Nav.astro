@@ -11,14 +11,40 @@ const navLinks = [
 
 <header class="nav">
   <div class="nav__inner container">
-    <a href="/" class="nav__logo">Catherine McMillan</a>
+    <div class="nav__left">
+      <a href="/" class="nav__logo">Catherine McMillan</a>
 
-    <!--<nav class="nav__links">-->
-    <!--  {navLinks.map((link) => (-->
-    <!--    <a href={link.href} class="nav__link">{link.label}</a>-->
-    <!--  ))}-->
-    <!--  <a href="/work-with-me#contact" class="nav__cta">Get in Touch</a>-->
-    <!--</nav>-->
+      <button class="nav__theme-toggle" aria-label="Toggle dark mode">
+        <span class="toggle__track">
+          <span class="toggle__icon toggle__icon--sun">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+          </span>
+          <span class="toggle__icon toggle__icon--moon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </span>
+          <span class="toggle__thumb"></span>
+        </span>
+      </button>
+    </div>
+
+    <nav class="nav__links">
+      {navLinks.map((link) => (
+        <a href={link.href} class="nav__link">{link.label}</a>
+      ))}
+      <a href="/work-with-me#contact" class="nav__cta">Get in Touch</a>
+    </nav>
 
     <button class="nav__hamburger" aria-label="Open menu">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -39,7 +65,7 @@ const navLinks = [
     left: 0;
     right: 0;
     z-index: 50;
-    background: rgba(250, 247, 242, 0.85);
+    background: rgba(var(--bg-rgb), 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--rule);
@@ -50,6 +76,11 @@ const navLinks = [
     justify-content: space-between;
     height: 72px;
   }
+  .nav__left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
   .nav__logo {
     font-family: var(--font-display);
     font-size: 1.25rem;
@@ -59,6 +90,62 @@ const navLinks = [
   }
   .nav__logo:hover {
     color: var(--accent);
+  }
+  .nav__theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+  .toggle__track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 44px;
+    height: 24px;
+    background: var(--bg-warm);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 0 4px;
+    transition: background var(--ease), border-color var(--ease);
+  }
+  .toggle__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .toggle__icon--sun {
+    color: var(--accent);
+  }
+  .toggle__icon--moon {
+    color: var(--text-tertiary);
+  }
+  [data-theme="dark"] .toggle__icon--sun {
+    color: var(--text-tertiary);
+  }
+  [data-theme="dark"] .toggle__icon--moon {
+    color: var(--accent);
+  }
+  .toggle__thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 50%;
+    transition: transform 0.25s var(--ease-out);
+    opacity: 0.2;
+  }
+  [data-theme="dark"] .toggle__thumb {
+    transform: translateX(20px);
   }
   .nav__links {
     display: flex;
@@ -74,6 +161,7 @@ const navLinks = [
     color: var(--text-secondary);
     position: relative;
     transition: color var(--ease);
+    text-decoration: none;
   }
   .nav__link::after {
     content: '';
@@ -102,6 +190,7 @@ const navLinks = [
     border-radius: 2px;
     padding: 0.5rem 1.25rem;
     transition: background-color var(--ease), color var(--ease);
+    text-decoration: none;
   }
   .nav__cta:hover {
     background-color: var(--accent);
@@ -109,6 +198,9 @@ const navLinks = [
   }
   .nav__hamburger {
     display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
     color: var(--text-primary);
     padding: 0.5rem;
   }
@@ -128,6 +220,14 @@ const navLinks = [
     const hamburger = document.querySelector('.nav__hamburger');
     const dialog = document.getElementById('mobile-menu') as HTMLDialogElement;
     hamburger?.addEventListener('click', () => dialog?.showModal());
+
+    const themeToggle = document.querySelector('.nav__theme-toggle');
+    themeToggle?.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const next = isDark ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
   }
 
   initNav();

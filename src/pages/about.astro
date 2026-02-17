@@ -1,0 +1,259 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLabel from '../components/common/SectionLabel.astro';
+import { Image } from 'astro:assets';
+import aboutImg1 from '../assets/images/about.png';
+import aboutImg2 from '../assets/images/about2.png';
+
+const milestones = [
+  { year: '2022', title: 'BCG BrightHouse', detail: 'Strategist & thought leadership' },
+  { year: '2023', title: 'Fulbright Scholar', detail: 'South Korea' },
+  { year: '2023', title: 'DayTrip', detail: 'Creator partnerships, Seoul' },
+  { year: '2024', title: 'Booz Allen Hamilton', detail: 'National Cyber Platform' },
+  { year: '2024', title: 'The AI Collective', detail: 'Founding Director of Operations' },
+  { year: '2025', title: 'DCTAV', detail: 'Venture Fellow, District Angels' },
+];
+---
+
+<BaseLayout title="About — Catherine McMillan">
+
+  <!-- 7a: Page Header -->
+  <section class="page-header section">
+    <div class="container">
+      <SectionLabel text="About" />
+      <h2 class="page-header__title">
+        The short version: I build communities that make sense of AI and advise the startups shaping it.
+      </h2>
+    </div>
+  </section>
+
+  <!-- Part 1: Photo left, prose right -->
+  <section class="story story--part1 section">
+    <div class="container story__grid">
+      <div class="story__photo">
+        <Image src={aboutImg1} alt="Catherine McMillan speaking with a microphone" />
+      </div>
+      <div class="story__prose prose">
+        <p>
+          I didn't take a straight path to tech — and that's the point. I studied history at Duke,
+          worked in brand strategy at BCG BrightHouse, and spent a year in South Korea as a Fulbright
+          scholar. Along the way I kept noticing the same thing: the people building the future and
+          the people affected by it were rarely in the same room.
+        </p>
+        <p>
+          That observation brought me to AI. Not as an engineer, but as someone who believes the most
+          important thing happening in technology right now is the conversation around it — who's
+          included, who's making decisions, and who gets left behind.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pull Quote Divider -->
+  <section class="pullquote-divider">
+    <div class="container pullquote-divider__inner">
+      <p class="pullquote-divider__text">
+        <em>
+          I believe the most powerful thing you can do in AI right now is build a room worth being in
+          — and then open the door wider.
+        </em>
+      </p>
+    </div>
+  </section>
+
+  <!-- Part 2: Prose left, photo right -->
+  <section class="story story--part2 section">
+    <div class="container story__grid story__grid--reversed">
+      <div class="story__prose prose">
+        <p>
+          Today I'm the Founding Director of Operations at The AI Collective, where we've built a
+          global community spanning 100+ cities. I host curated gatherings — roundtables, dinners,
+          working sessions — that bring together founders, researchers, and investors for the kind of
+          honest conversation that doesn't happen on stage.
+        </p>
+        <p>
+          On the advisory side, I work with early-stage AI startups on go-to-market strategy,
+          community-led growth, and the operational foundations that turn a good idea into a real
+          company. I also consult one-on-one with professionals navigating career transitions,
+          public presence, and strategic positioning in a landscape that changes every week.
+        </p>
+        <p>
+          Everything I do comes back to the same conviction: AI will be better if more kinds of
+          people are in the room when it's being built. My job is to make sure those rooms exist.
+        </p>
+      </div>
+      <div class="story__photo">
+        <Image src={aboutImg2} alt="Catherine presenting to an audience" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 7c: Milestones -->
+  <section class="milestones section">
+    <div class="container">
+      <div class="milestones__track">
+        {milestones.map((m) => (
+          <div class="milestone">
+            <span class="milestone__year">{m.year}</span>
+            <span class="milestone__title">{m.title}</span>
+            <span class="milestone__detail">{m.detail}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ── 7a: Page Header ── */
+  .page-header {
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    background-color: var(--bg);
+  }
+  .page-header :global(.section-label) {
+    margin-bottom: var(--space-md);
+  }
+  .page-header__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 300;
+    color: var(--espresso);
+    max-width: 800px;
+    line-height: 1.3;
+  }
+
+  /* ── Story Sections ── */
+  .story--part1 {
+    background-color: var(--bg);
+  }
+  .story--part2 {
+    background-color: var(--bg);
+    padding-bottom: var(--space-lg);
+  }
+  .story__grid {
+    display: grid;
+    grid-template-columns: 55% 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .story__grid--reversed {
+    grid-template-columns: 1fr 55%;
+  }
+  .story__photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  .story__photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.08'/%3E%3C/svg%3E");
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+  .story__photo :global(img) {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+  }
+  .story__prose {
+    max-width: 520px;
+  }
+  .story__prose p {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Pull Quote Divider ── */
+  .pullquote-divider {
+    background-color: var(--bg-warm);
+    padding-block: 5rem;
+  }
+  .pullquote-divider__inner {
+    display: flex;
+    justify-content: center;
+  }
+  .pullquote-divider__text {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+    font-weight: 300;
+    color: var(--espresso);
+    max-width: 700px;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ── 7c: Milestones ── */
+  .milestones {
+    background-color: var(--bg);
+    padding-top: 0;
+  }
+  .milestones__track {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-lg);
+  }
+  .milestone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-right: var(--space-md);
+  }
+  .milestone__year {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .milestone__title {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+  }
+  .milestone__detail {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .page-header {
+      padding-top: 6rem;
+      padding-bottom: 3rem;
+    }
+    .story__grid,
+    .story__grid--reversed {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+    .story__photo {
+      max-width: 400px;
+    }
+    .pullquote-divider {
+      padding-block: var(--space-3xl);
+    }
+    .milestones__track {
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+    .milestone {
+      padding-right: 0;
+    }
+  }
+</style>
