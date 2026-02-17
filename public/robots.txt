@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://catherine-mcmillan.com/sitemap-index.xml
