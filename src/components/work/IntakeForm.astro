@@ -90,6 +90,9 @@
     flex-direction: column;
     gap: var(--space-md);
   }
+  .intake__form[hidden] {
+    display: none;
+  }
   .form-field {
     display: flex;
     flex-direction: column;
@@ -208,18 +211,8 @@
     const success = document.getElementById('intake-success');
     if (!form || !success) return;
 
-    // Track when form was loaded (for time-based validation)
-    const formLoadTime = Date.now();
-
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // Time-based validation: form must be open for at least 3 seconds
-      const timeElapsed = (Date.now() - formLoadTime) / 1000;
-      if (timeElapsed < 3) {
-        alert('Please take a moment to review your submission.');
-        return;
-      }
 
       const btn = form.querySelector('.form-submit');
       if (btn) {
@@ -229,9 +222,6 @@
 
       const data = new FormData(form);
       const body = Object.fromEntries(data.entries());
-
-      // Add timestamp for server-side validation
-      body.timestamp = formLoadTime;
 
       try {
         const res = await fetch('/api/contact', {
@@ -243,6 +233,8 @@
         if (res.ok) {
           form.hidden = true;
           success.hidden = false;
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
         } else {
           const { error } = await res.json().catch(() => ({ error: 'Something went wrong.' }));
           alert(error || 'Something went wrong. Please try again.');
